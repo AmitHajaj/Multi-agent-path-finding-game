@@ -34,11 +34,21 @@ To achieve this goal I decided to go with this strategy:
   3. Important to say, when there is a case that two pokemon's on the same edge and there is two different agent's on the way to them, in future search one of them will take          ownership on both of them and the other agent will be needed to search a different pokemon.
    
 # How to play?
-There is an exe file which opens by double click on it. before the game start, it asks for the user's ID and a level to play.(currently, 0-23) 
-each level has a given graph, number of agents and time to play. 
+First, clone the project to your computer.
+
+Option 1: After cloning, there is an exe file called Ex2.jar which opens by double click on it. before the game start, it asks for the user's ID and a level to play.(currently, 0-23) each level has a given graph, number of agents and time to play.
+
+Option 2: After cloning, you can go to the command line and navigate to the folder which Ex2.jar is in. When you there, type this command: `java -jar Ex2.jar`.
+
+Note: There is an option that this following command will not open the file. In this case you should take the path of Ex2.java, let's call it path, and type this command: `java -jar "path"`. (quotation mark are imprtent!)
+
+Now when we now how to open the game, let's see how to start. When opening the game, you will see a question box that ask's for your ID. The game accept only 9 digits ID.
+After this, you will see another question box that ask's you to choose a level.(currently 0-23)
 
 # Usage
 Suitable for PC's. the game based on Java. 
+
+
 
 ## Libraries
 annotations-13.0
