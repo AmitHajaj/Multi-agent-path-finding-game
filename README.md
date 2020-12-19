@@ -36,6 +36,8 @@ To achieve this goal I decided to go with this strategy:
 # How to play?
 First, clone the project to your computer.
 
+Before starting, check that Ex2.jar is in the same file as data folder.
+
 Option 1: After cloning, there is an exe file called Ex2.jar which opens by double click on it. before the game start, it asks for the user's ID and a level to play.(currently, 0-23) each level has a given graph, number of agents and time to play.
 
 Option 2: After cloning, you can go to the command line and navigate to the folder which Ex2.jar is in. When you there, type this command: `java -jar Ex2.jar`.
