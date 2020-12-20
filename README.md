@@ -40,7 +40,9 @@ Before starting, check that Ex2.jar is in the same file as data folder.
 
 Option 1: After cloning, there is an exe file called Ex2.jar which opens by double click on it. before the game start, it asks for the user's ID and a level to play.(currently, 0-23) each level has a given graph, number of agents and time to play.
 
-Option 2: After cloning, you can go to the command line and navigate to the folder which Ex2.jar is in. When you there, type this command: `java -jar Ex2.jar`.
+Option 2: After cloning, you can go to the command line and navigate to the folder which Ex2.jar is in. When you there, type this command: `java -jar Ex2.jar`. 
+
+you can also use this following command to open the gime with given data f yours: `java -jar Ex2.jar "your_ID" "level_to_choose"`. 
 
 Note: There is an option that this following command will not open the file. In this case you should take the path of Ex2.java, let's call it path, and type this command: `java -jar "path"`. (quotation mark are imprtent!)
 
