@@ -15,40 +15,48 @@ public class Ex2 implements Runnable {
     private static MyFrame _win;
     private static Arena _ar;
     private static long dt = 100;
-    private static int level;
-    private static int id;
+    private static int level = -1;
+    private static int id = -1;
 
 
     public static void main(String[] args) {
         Thread client = new Thread(new Ex2());
+        if(args.length != 0){
+            id = Integer.parseInt(args[0]);
+            level = Integer.parseInt(args[1]);
+        }
         client.start();
     }
 
     @Override
     public void run() {
-        boolean validID= true;
-        String idNum= JOptionPane.showInputDialog("Please enter id: ");;
-        while(validID){
-            if(idNum.length() != 9){
-                idNum= JOptionPane.showInputDialog("Invalid length!\n Please enter id: ");
+        boolean validID = true;
+        if(id == -1) {
+            String idNum = JOptionPane.showInputDialog("Please enter id: ");
+            while (validID) {
+                if (idNum.length() != 9) {
+                    idNum = JOptionPane.showInputDialog("Invalid length!\n Please enter id: ");
+                } else {
+                    validID = false;
+                    int id = Integer.parseInt(idNum);
+                }
             }
-            else{
-                validID=false;
+            validID = true;
+        }
+        if(level == -1) {
+            String level_number = JOptionPane.showInputDialog("Please enter level: ");
+            while (validID) {
+                if (level_number.length() == 0) {
+                    level_number = JOptionPane.showInputDialog("Invalid input!\n Please enter level: ");
+                } else {
+                    validID = false;
+                    level = Integer.parseInt(level_number);
+                }
             }
         }
-        validID =true;
-        String level= JOptionPane.showInputDialog("Please enter level: ");
-        while(validID){
-            if(level.length()==0){
-                level= JOptionPane.showInputDialog("Invalid input!\n Please enter level: ");
-            }
-            else{
-                validID=false;
-            }
-        }
-        int level_number = Integer.parseInt(level);
-        game_service game = Game_Server_Ex2.getServer(level_number);
-        int id = Integer.parseInt(idNum);
+
+        game_service game = Game_Server_Ex2.getServer(level);
+
         game.login(id);
         String g = game.getGraph();
         String pks = game.getPokemons();
