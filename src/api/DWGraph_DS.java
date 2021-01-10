@@ -214,6 +214,8 @@ public class DWGraph_DS implements directed_weighted_graph {
         private transient HashSet<node_data> Ni;
         private HashSet<Integer> pointAtMe;
         private geo_location location;
+        public static int index = 0;
+
 
         /**
          * constructor.

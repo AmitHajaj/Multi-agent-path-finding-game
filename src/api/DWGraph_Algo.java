@@ -221,4 +221,14 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         }
         return null;
     }
+
+    /**
+     * method which returns the strongly connected components in a given graph.
+     * this method is implements the famous Tarjan's algorithm.
+     * @return list of lists that represents each components.
+     */
+    public List<List<node_data>> tarjan(){
+        tarjanAlgo ta = new tarjanAlgo();
+        return ta.getSCComponents(this.g);
+    }
 }
