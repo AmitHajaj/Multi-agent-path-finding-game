@@ -184,6 +184,21 @@ public class DWGraph_DS implements directed_weighted_graph {
         return true;
     }
 
+    public DWGraph_DS reverse() {
+        DWGraph_DS reversed_graph = new DWGraph_DS();
+        for (node_data n : this.getV()) {
+            node_data temp = new DWGraph_DS.NodeData(n.getKey());
+            reversed_graph.addNode(temp);
+        }
+            //Here we will deep copy each node neighbors.
+        for(node_data n: this.getV()) {
+            for (node_data ne : ((NodeData) n).getNeighbor()) {
+                reversed_graph.connect(ne.getKey(), n.getKey(), this.getEdge(n.getKey(), ne.getKey()).getWeight());
+            }
+        }
+        return reversed_graph;
+    }
+
     /**
      * methos which convert a Json string to graph.
      * Note: made only for OOP course style of Json.
@@ -199,6 +214,7 @@ public class DWGraph_DS implements directed_weighted_graph {
        graph = gson.fromJson(JsonGraph, DWGraph_DS.class);
        return graph;
     }
+
 
     /**
      * Inner class which imlements node_data.
@@ -541,11 +557,20 @@ public class DWGraph_DS implements directed_weighted_graph {
             JsonArray edgesArr = jsonObject.get("Edges").getAsJsonArray();
 
             for (JsonElement obj : nodesArr) {
-                String pos = obj.getAsJsonObject().get("pos").getAsString();
-                String[] cord = pos.split(",");
-                double x = Double.parseDouble(cord[0]);
-                double y = Double.parseDouble(cord[1]);
-                double z = Double.parseDouble(cord[2]);
+                double x, y, z;
+
+                if(obj.getAsJsonObject().get("pos") != null) {
+                    String pos = obj.getAsJsonObject().get("pos").getAsString();
+                    String[] cord = pos.split(",");
+                    x = Double.parseDouble(cord[0]);
+                    y = Double.parseDouble(cord[1]);
+                    z = Double.parseDouble(cord[2]);
+                }
+                else{
+                    x = Math.random();
+                    y = Math.random();
+                    z = Math.random();
+                }
 
                 int k = obj.getAsJsonObject().get("id").getAsInt();
                 NodeData curr = new NodeData(k);

@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+
 public class Ex2 implements Runnable {
     private static MyFrame _win;
     private static Arena _ar;
