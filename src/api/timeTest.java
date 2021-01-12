@@ -6,6 +6,7 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.List;
 import java.util.*;
+import java.io.FileWriter;
 
 import com.google.gson.*;
 import org.json.JSONObject;
@@ -21,6 +22,7 @@ import org.json.JSONArray;
  *          - CONNECTED_COMPONENT
  */
 public class timeTest {
+
     public static void main(String[] args) throws IOException {
         DWGraph_DS graph = new DWGraph_DS();
         DWGraph_Algo ga = new DWGraph_Algo();
@@ -41,28 +43,37 @@ public class timeTest {
             }
         }
 
-//        String JsonGraph = new String(Files.readAllBytes(Paths.get(path + "\\G_10_80_0.json")));
-//        ga.init(graph.fromJson(JsonGraph));
-
         for (DWGraph_DS g : graphs.keySet()) {
-            ga.init(g);
-            //time shortest_path on each node to each node.
-            long startTime = System.currentTimeMillis();
-            ga.shortestPath(0, g.nodeSize()/2);
+                ga.init(g);
+                //time shortest_path on each node to each node.
+                long startTime = System.currentTimeMillis();
+                ga.shortestPath(0, g.nodeSize()/2);
 
 
-            long endTime = System.currentTimeMillis();
+                long endTime = System.currentTimeMillis();
 
-            scoresInShortPath.put(graphs.get(g), endTime-startTime);
+                scoresInShortPath.put(graphs.get(g), endTime-startTime);
 
-            //time SCC algo.
-            startTime = System.currentTimeMillis();
-            ga.printSCCs();
-            endTime = System.currentTimeMillis();
-            scoresInSCC.put(graphs.get(g), endTime-startTime);
+                //time SCC algo.
+                startTime = System.currentTimeMillis();
+                ga.printSCCs();
+                endTime = System.currentTimeMillis();
+                scoresInSCC.put(graphs.get(g), endTime-startTime);
         }
 
-        System.out.println("---------shortPath times---------"+scoresInShortPath.toString()+"\n -------SCC times--------\n"+scoresInSCC.toString());
-        System.out.println("");
+
+
+        HashMap<String, HashMap<String, Long>> jsonList = new HashMap<>();
+        jsonList.put("SCC", scoresInSCC);
+        jsonList.put("SP", scoresInShortPath);
+
+        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
+        String jsonL= gson.toJson(jsonList);
+
+        FileWriter out = new FileWriter("output.txt");
+        out.write(jsonL);
+        out.close();
+
     }
 }

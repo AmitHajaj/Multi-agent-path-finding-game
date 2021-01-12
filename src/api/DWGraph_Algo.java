@@ -227,100 +227,12 @@ public class DWGraph_Algo implements dw_graph_algorithms {
      * this method is implements the famous Tarjan's algorithm.
      * @return list of lists that represents each components.
      */
-//    public List<List<node_data>> tarjan(){
-//        tarjanAlgo ta = new tarjanAlgo();
-//        return ta.getSCComponents(this.g);
-//    }
 
-
-//    void DFS1(node_data s)
-//    {
-//        // Initially mark all vertices as not visited
-//        HashMap<node_data, Boolean> visited = new HashMap<>();
-//        DWGraph_DS.NodeData n = (DWGraph_DS.NodeData)s;
-//        for (node_data node: n.getNeighbor()) {
-//            visited.put(node, false);
-//        }
-//
-//
-//        // Create a stack for DFS
-//        Stack<node_data> stack = new Stack<>();
-//
-//        // Push the current source node
-//        stack.push(s);
-//
-//        while(stack.empty() == false)
-//        {
-//            // Pop a vertex from stack and print it
-//            s = stack.peek();
-//            stack.pop();
-//
-//            // Stack may contain same vertex twice. So
-//            // we need to print the popped item only
-//            // if it is not visited.
-//            if(visited.get(s) == false)
-//            {
-////                System.out.print(s + " ");
-//                visited.put(s, true);
-//            }
-//
-//            // Get all adjacent vertices of the popped vertex s
-//            // If a adjacent has not been visited, then push it
-//            // to the stack.
-//            Iterator<node_data> itr = n.getNeighbor().iterator();
-//
-//            while (itr.hasNext())
-//            {
-//                node_data v = itr.next();
-//                if(!visited.get(v))
-//                    stack.push(v);
-//            }
-//
-//        }
-//    }
-
-    void DFSUtil(node_data v,HashMap<Integer, Boolean> visited)
-    {
-        // Mark the current node as visited and print it
-        visited.put(v.getKey(), true);
-        System.out.print(v.getKey() + " ");
-
-        node_data n = null;
-
-        // Recur for all the vertices adjacent to this vertex
-        Iterator<node_data> i = ((DWGraph_DS.NodeData)v).getNeighbor().iterator();
-        while (i.hasNext())
-        {
-            n = i.next();
-            if (!visited.get(n.getKey()))
-                DFSUtil(n,visited);
-        }
-    }
-
-//    void fillOrder(node_data v, HashMap<Integer, Boolean> visited, Stack stack)
-//    {
-//        // Mark the current node as visited and print it
-//        visited.put(v.getKey(), true);
-//
-//        // Recur for all the vertices adjacent to this vertex
-//        Iterator<node_data> i = this.getGraph().getV().iterator();
-//        while (i.hasNext())
-//        {
-//            node_data n = i.next();
-//            if(!visited.get(n.getKey()))
-//                fillOrder(n, visited, stack);
-//        }
-//
-//        // All vertices reachable from v are processed by now,
-//        // push v to Stack
-//        stack.push((v.getKey()));
-//    }
-
-    void DFS2(int s, List<Integer> list, HashMap<Integer, Boolean> visited)
+    void DFS2(int s, List<Integer> list, HashMap<Integer, Boolean> visited, boolean stat, directed_weighted_graph g)
     {
         // Initially mark all vertices as not visited
-        for (node_data n: this.getGraph().getV())
-            visited.put(n.getKey(), false);
+//        for (node_data n: g.getV())
+//            visited.put(n.getKey(), false);
 
         // Create a stack for DFS
         Stack<Integer> stack = new Stack<>();
@@ -331,30 +243,32 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         while(!stack.empty())
         {
             // Pop a vertex from stack and print it
-            s = stack.peek();
-            stack.pop();
+             s=stack.pop();
 
             // Stack may contain same vertex twice. So
             // we need to print the popped item only
             // if it is not visited.
             if(!visited.get(s))
             {
-//                System.out.print(s + " ");
                 visited.put(s, true);
-                list.add(s);
+                if(stat){
+//                    System.out.print(s);
+                }
+                else {
+                    list.add(s);
+                }
             }
 
             // Get all adjacent vertices of the popped vertex s
             // If a adjacent has not been visited, then push it
             // to the stack.
-            Iterator<node_data> itr = ((DWGraph_DS.NodeData)this.g.getNode(s)).getNeighbor().iterator();
+            Iterator<node_data> itr = ((DWGraph_DS.NodeData)g.getNode(s)).getNeighbor().iterator();
 
             while (itr.hasNext())
             {
                 int v = itr.next().getKey();
                 if(!visited.get(v))
                     stack.push(v);
-//                    list.add(v);
             }
         }
     }
@@ -366,21 +280,22 @@ public class DWGraph_Algo implements dw_graph_algorithms {
         Stack<Integer> stack = new Stack();
         ArrayList<Integer> list = new ArrayList<>();
 
-        // Mark all the vertices as not visited (For first DFS)
+//        // Mark all the vertices as not visited (For first DFS)
         HashMap<Integer, Boolean> visited = new HashMap<>();
         for(node_data n: this.getGraph().getV())
             visited.put(n.getKey(), false);
 
         // Fill vertices in stack according to their finishing
         // times
-        for (node_data n: this.getGraph().getV())
+        Collection<node_data> nodes = this.getGraph().getV();
+        for (node_data n: nodes) {
             if (!visited.get(n.getKey())) {
-//                fillOrder(n, visited, stack);
-                DFS2(n.getKey(), list, visited);
+                DFS2(n.getKey(), list, visited, false, this.getGraph());
             }
+        }
+
         // Create a reversed graph
         DWGraph_DS gr = ((DWGraph_DS)this.getGraph()).reverse();
-
         // Mark all the vertices as not visited (For second DFS)
         for (node_data n: this.getGraph().getV())
             visited.put(n.getKey(), false);
@@ -395,8 +310,7 @@ public class DWGraph_Algo implements dw_graph_algorithms {
             // Print Strongly connected component of the popped vertex
             if (!visited.get(v))
             {
-                DFSUtil(gr.getNode(v), visited);
-                System.out.println();
+                DFS2(gr.getNode(v).getKey(), null, visited, true, gr);
             }
         }
     }
